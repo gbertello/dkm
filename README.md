@@ -3,9 +3,11 @@ A user-friendly executable to manage docker deployments in NodeJS
 
 # Usage:
 Install ndk as a npm package:
+
     npm install -g ndk
 
 Create file ndk.json with docker configuration:
+
     {
         "dev": {
             "network": "toto",
@@ -25,4 +27,5 @@ Create file ndk.json with docker configuration:
     }  
 
 Run container:
+
     ndk start dev
