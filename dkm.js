@@ -2,7 +2,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 const fs = require("fs")
 
-function ndk(process) {
+function dkm(process) {
   let action = process.argv[2];
   if (action == "start")
     start(process);
@@ -20,8 +20,8 @@ function start() {
   let ports = {};
   let restart = false;
   
-  if (fs.existsSync("ndk.json")) {
-    let config = JSON.parse(fs.readFileSync('ndk.json'));
+  if (fs.existsSync("dkm.json")) {
+    let config = JSON.parse(fs.readFileSync('dkm.json'));
     if (system in config) {
       if ("network" in config[system])
         network = config[system]["network"];
@@ -93,4 +93,4 @@ function stop(process) {
   }
 }
 
-module.exports = ndk;
+module.exports = dkm;

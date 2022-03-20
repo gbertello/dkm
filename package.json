@@ -1,15 +1,12 @@
 {
-  "name": "ndk",
+  "name": "dkm",
   "version": "1.0.0",
   "description": "A user-friendly executable to manage docker deployments in NodeJS",
   "main": "cli.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Guillaume Bertello",
   "license": "ISC",
   "bin": {
-    "ndk": "cli.js"
+    "dkm": "cli.js"
   },
   "dependencies": {
     "childprocess": "^2.0.2"

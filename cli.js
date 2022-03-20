@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require("./ndk.js")(process)
+require("./dkm.js")(process)
