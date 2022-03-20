@@ -24,17 +24,13 @@ Create file ndk.json with docker configuration:
 
     {
         "dev": {
-            "network": "toto",
-            "volumes": {
-            "disk": "/disk"
-            },
             "variables": {
-            "var1": "123",
-            "var2": "456"
+                "var1": "123",
+                "var2": "456"
             },
             "ports": {
-            "8080": "80",
-            "8181": "81"
+                "8080": "80",
+                "8181": "81"
             },
             "restart": true
         }
