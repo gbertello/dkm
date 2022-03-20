@@ -1,0 +1,11 @@
+{
+  "name": "ndk",
+  "version": "1.0.0",
+  "description": "A user-friendly executable to manage docker deployments in NodeJS",
+  "main": "cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guillaume Bertello",
+  "license": "ISC"
+}
