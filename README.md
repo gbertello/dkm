@@ -32,6 +32,10 @@ Create file dkm.json with docker configuration:
 
     {
       "dev": {
+        "network": "local",
+        "volumes": {
+          "disk": "/disk"
+        },
         "variables": {
           "var1": "123",
           "var2": "456"
@@ -43,6 +47,11 @@ Create file dkm.json with docker configuration:
         "restart": true
       }
     }  
+
+Create volume
+
+    > mkdir disk
+    > touch disk/hello.txt
 
 Run container:
 
@@ -59,4 +68,24 @@ Check that container runs with all expected parameters:
     123
     # echo $var2
     456
+    # ls /disk
+    hello.txt
+    # exit
 
+    > docker network inspect
+    [
+      {
+        "Name": "local",
+        "Containers": { 
+          "...": {
+            "Name": "app_comp_dev",
+            "..."
+          }
+        }
+        "..."
+      }
+    ]
+
+Stop container:
+
+    > dkm stop dev
