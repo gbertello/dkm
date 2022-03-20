@@ -1,10 +1,10 @@
-# What is ndk?
+# What is dkm?
 A user-friendly executable to manage docker deployments in NodeJS
 
 # Usage:
-Install ndk as a npm package:
+Install dkm as a npm package:
 
-    npm install -g ndk
+    npm install -g dkm
 
 Create application directory:
 
@@ -18,9 +18,9 @@ Create component directory:
 
 Create Dockerfile:
 
-    FROM node:16.0.0
+    FROM node:latest
 
-Create file ndk.json with docker configuration:
+Create file dkm.json with docker configuration:
 
     {
         "dev": {
@@ -38,4 +38,4 @@ Create file ndk.json with docker configuration:
 
 Run container:
 
-    ndk start dev
+    dkm start dev
