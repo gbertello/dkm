@@ -93,7 +93,7 @@ Stop container:
 # The command parameter
 The file dkm.json can contain another argument called "command". This was implemented because some docker images like mongo do not work immediately after contain start. dkm will run an infinite loop with the command "docker exec IMAGE command" and break until this command returns an OK status code.
 
-See tutorial/mongo/dkm.json for an illustration.
+See example/mongo/dkm.json for an illustration.
 
 # Start and stop application with multiple components
 Multiple components can be started and stopped at once with one single command. The application directory should contain a dkm.json file with the following contents:
@@ -105,8 +105,8 @@ Multiple components can be started and stopped at once with one single command. 
       ]
     }
 
-# Run the tutorial
-The tutorial directory contains example of our this program works, with various technologies. Each container can be started with the command:
+# Try the example
+The example directory contains example of our this program works, with various technologies. Each container can be started with the command:
 
     > dkm start dev
 
