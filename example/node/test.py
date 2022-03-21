@@ -2,8 +2,10 @@
 import requests
 import subprocess
 import json
+import os
 
-port = list(json.load(open("dkm.json", 'r'))["dev"]["ports"])[0]
+CWD = os.path.dirname(os.path.abspath(__file__))
+port = list(json.load(open(os.path.join(CWD, "dkm.json"), 'r'))["dev"]["ports"])[0]
 
 
 def test_main():
