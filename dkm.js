@@ -4,18 +4,25 @@ const fs = require("fs")
 
 function dkm(process) {
   let action = process.argv[2];
+  let system = process.argv[3];
+  let dockerFile = "Dockerfile";
+
   if (fs.existsSync("dkm.json")) {
     let config = JSON.parse(fs.readFileSync('dkm.json'));
     if ("components" in config) {
       for (let i in config["components"]) {
-        process.chdir(config["components"][i])
-        dkm(process)
-        process.chdir("../")
+        process.chdir(config["components"][i]);
+        dkm(process);
+        process.chdir("../");
       }
     }
+
+    if (system in config)
+      if ("dockerFile" in config[system])
+        dockerFile = config[system]["dockerFile"];
   }
 
-  if (fs.existsSync("Dockerfile")) {
+  if (fs.existsSync(dockerFile)) {
     if (action == "start")
       start(process);
     else if (action == "stop")
@@ -33,6 +40,7 @@ function start() {
   let ports = {};
   let restart = false;
   let command = "";
+  let dockerFile = "Dockerfile";
 
   if (fs.existsSync("dkm.json")) {
     let config = JSON.parse(fs.readFileSync('dkm.json'));
@@ -49,10 +57,12 @@ function start() {
         restart = config[system]["restart"];
       if ("command" in config[system])
         command = config[system]["command"];
+      if ("dockerFile" in config[system])
+        dockerFile = config[system]["dockerFile"]
     }
   }
 
-  if (execSync("docker ps").toString().search(new RegExp(image)) != -1) {
+  if (execSync("docker ps -a").toString().search(new RegExp(image)) != -1) {
     console.log("*** Stopping container " + image + "...");
     execSync("docker stop " + image, {stdio: "inherit"});
     execSync("docker rm " + image, {stdio: "inherit"});
@@ -60,7 +70,7 @@ function start() {
   }
 
   console.log("*** Building container " + image + "...");
-  execSync("docker build -t " + image + " " + process.cwd(), {stdio: "inherit"});
+  execSync("docker build -t " + image + " -f " + dockerFile + " " + process.cwd(), {stdio: "inherit"});
 
   if (execSync("docker network ls").toString().search(new RegExp(network)) == -1) {
     console.log("*** Creating network " + network + "...");

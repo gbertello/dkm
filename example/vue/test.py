@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 import requests
 import subprocess
+import json
+
+port = list(json.load(open("dkm.json", 'r'))["dev"]["ports"])[0]
 
 
 def test_main():
-  r = requests.get("http://localhost:5003/").text.strip()
+  r = requests.get("http://localhost:" + port + "/").text.strip()
   assert r.startswith("<!DOCTYPE html>")
 
 if __name__ == "__main__":

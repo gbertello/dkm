@@ -1,7 +1,11 @@
 {
   "dev": {
+    "dockerFile": "Dockerfile-dev",
     "ports": {
       "5003": "80"
+    },
+    "volumes": {
+      "app": "/app"
     }
   },
   "prod": {

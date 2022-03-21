@@ -32,7 +32,7 @@ Create file dkm.json with docker configuration:
 
     {
       "dev": {
-        "network": "local",
+        "network": "dev",
         "volumes": {
           "disk": "/disk"
         },
@@ -43,8 +43,7 @@ Create file dkm.json with docker configuration:
         "ports": {
           "8080": "80",
           "8181": "81"
-        },
-        "restart": true
+        }
       }
     }  
 
@@ -75,7 +74,7 @@ Check that container runs with all expected parameters:
     > docker network inspect
     [
       {
-        "Name": "local",
+        "Name": "dev",
         "Containers": { 
           "...": {
             "Name": "app_comp_dev",
@@ -89,6 +88,12 @@ Check that container runs with all expected parameters:
 Stop container:
 
     > dkm stop dev
+
+# The restart parameter
+Set this parameter to "true" to enable docker restart when container stops. This is especially useful for production environment.
+
+# The dockerFile parameter
+This parameter is used to specify a Dockerfile for a specific configuration
 
 # The command parameter
 The file dkm.json can contain another argument called "command". This was implemented because some docker images like mongo do not work immediately after contain start. dkm will run an infinite loop with the command "docker exec IMAGE command" and break until this command returns an OK status code.
