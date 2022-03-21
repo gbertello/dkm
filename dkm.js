@@ -4,10 +4,23 @@ const fs = require("fs")
 
 function dkm(process) {
   let action = process.argv[2];
-  if (action == "start")
-    start(process);
-  else if (action == "stop")
-    stop(process);
+  if (fs.existsSync("dkm.json")) {
+    let config = JSON.parse(fs.readFileSync('dkm.json'));
+    if ("components" in config) {
+      for (let i in config["components"]) {
+        process.chdir(config["components"][i])
+        dkm(process)
+        process.chdir("../")
+      }
+    }
+  }
+
+  if (fs.existsSync("Dockerfile")) {
+    if (action == "start")
+      start(process);
+    else if (action == "stop")
+      stop(process);
+  }
 }
 
 function start() {
@@ -19,7 +32,8 @@ function start() {
   let variables = {};
   let ports = {};
   let restart = false;
-  
+  let command = "";
+
   if (fs.existsSync("dkm.json")) {
     let config = JSON.parse(fs.readFileSync('dkm.json'));
     if (system in config) {
@@ -33,6 +47,8 @@ function start() {
         ports = config[system]["ports"];
       if ("restart" in config[system])
         restart = config[system]["restart"];
+      if ("command" in config[system])
+        command = config[system]["command"];
     }
   }
 
@@ -45,7 +61,7 @@ function start() {
 
   console.log("*** Building container " + image + "...");
   execSync("docker build -t " + image + " " + process.cwd(), {stdio: "inherit"});
-  
+
   if (execSync("docker network ls").toString().search(new RegExp(network)) == -1) {
     console.log("*** Creating network " + network + "...");
     execSync("docker network create --driver bridge " + network, {stdio: "inherit"});
@@ -79,12 +95,21 @@ function start() {
   console.log("*** Starting container " + image + "...");
   execSync("docker run -dit --name " + image + " --network " + network + " -e IMAGE=" + image + " -e SYSTEM=" + system + " " + options + " " + image, {stdio: "inherit"});
   execSync("docker ps", { stdio: "inherit" });
+
+  if (command != "") {
+    while (true) {
+      try {
+        execSync("docker exec " + image + " " + command, { stdio: "inherit" })
+        break
+      } catch(error) {}
+    }
+  }
 }
 
 function stop(process) {
   let system = process.argv[3];
   let image = (path.basename(path.dirname(process.cwd())) + "_" + path.basename(process.cwd()) + "_" + system).toLowerCase();
-  
+
   if (execSync("docker ps").toString().search(new RegExp(image)) != -1) {
     console.log("*** Stopping container " + image + "...");
     execSync("docker stop " + image, {stdio: "inherit"});

@@ -1,0 +1,10 @@
+{
+  "components": [
+    "flask",
+    "go",
+    "mongo",
+    "nginx",
+    "node",
+    "vue"
+  ]
+}
