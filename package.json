@@ -1,6 +1,6 @@
 {
   "name": "dkm",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A user-friendly executable to manage docker deployments in NodeJS",
   "main": "cli.js",
   "author": "Guillaume Bertello",

@@ -85,6 +85,8 @@ function start() {
 
   for (let k in variables) {
     let v = variables[k];
+    if (v == "$ENV")
+      v = eval("process.env." + k)
     options += "-e " + k + "=" + v + " ";
   }
 

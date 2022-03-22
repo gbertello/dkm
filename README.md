@@ -110,6 +110,13 @@ Multiple components can be started and stopped at once with one single command. 
       ]
     }
 
+# Use environment variables
+Sometimes, environment variables need to be used in dkm.json files. In this case, use the following syntax:
+
+    "variables": {
+      "SECRET": "$ENV"
+    }
+
 # Try the example
 The example directory contains example of our this program works, with various technologies. Each container can be started with the command:
 
