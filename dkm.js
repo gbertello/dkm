@@ -1,10 +1,31 @@
 const path = require('path');
 const { execSync } = require('child_process');
-const fs = require("fs")
+const fs = require("fs");
+
+var argv = require('yargs')
+  .scriptName("dkm")
+  .command('$0 <action> <system> [clean]', 'Use docker manager', (yargs) => {
+    yargs.positional('action', {
+            description: 'start/stop',
+            type: 'string',
+          })
+          .positional('system', {
+            description: 'dev/prod',
+            type: 'string',
+          })
+          .option('clean', {
+            description: 'Force reload when building docker container',
+            default: false,
+            type: "boolean"
+          });
+  })
+  .version()
+  .help()
+  .argv
 
 function dkm(process) {
-  let action = process.argv[2];
-  let system = process.argv[3];
+  let action = argv.action;
+  let system = argv.system;
   let dockerFile = "Dockerfile";
 
   if (fs.existsSync("dkm.json")) {
@@ -31,7 +52,9 @@ function dkm(process) {
 }
 
 function start() {
-  let system = process.argv[3];
+  let system = argv.system;
+  let clean = argv.clean;
+
   let image = (path.basename(path.dirname(process.cwd())) + "_" + path.basename(process.cwd()) + "_" + system).toLowerCase();
 
   let network = system;
@@ -70,7 +93,11 @@ function start() {
   }
 
   console.log("*** Building container " + image + "...");
-  execSync("docker build -t " + image + " -f " + dockerFile + " " + process.cwd(), {stdio: "inherit"});
+
+  let buildOptions = ""
+  if (clean)
+    buildOptions = "--no-cache "
+  execSync("docker build -t " + image + " -f " + dockerFile + " " + buildOptions + process.cwd(), {stdio: "inherit"});
 
   if (execSync("docker network ls").toString().search(new RegExp(network)) == -1) {
     console.log("*** Creating network " + network + "...");

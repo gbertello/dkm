@@ -117,6 +117,11 @@ Sometimes, environment variables need to be used in dkm.json files. In this case
       "SECRET": "$ENV"
     }
 
+# Use "clean" optional argument to force reload
+When needed, docker needs to be rebuilt without using cache. Use this command in this case:
+
+    dkm start dev clean
+
 # Try the example
 The example directory contains example of our this program works, with various technologies. Each container can be started with the command:
 

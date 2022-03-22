@@ -1,6 +1,6 @@
 {
   "name": "dkm",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A user-friendly executable to manage docker deployments in NodeJS",
   "main": "cli.js",
   "author": "Guillaume Bertello",
@@ -9,6 +9,7 @@
     "dkm": "cli.js"
   },
   "dependencies": {
-    "childprocess": "^2.0.2"
+    "childprocess": "^2.0.2",
+    "yargs": "^17.4.0"
   }
 }
