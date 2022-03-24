@@ -60,6 +60,7 @@ function start() {
   let network = system;
   let volumes = {};
   let variables = {};
+  let buildArgs = {};
   let ports = {};
   let restart = false;
   let command = "";
@@ -74,6 +75,8 @@ function start() {
         volumes = config[system]["volumes"];
       if ("variables" in config[system])
         variables = config[system]["variables"];
+      if ("build-args" in config[system])
+        buildArgs = config[system]["build-args"];
       if ("ports" in config[system])
         ports = config[system]["ports"];
       if ("restart" in config[system])
@@ -97,7 +100,13 @@ function start() {
   let buildOptions = ""
   if (clean)
     buildOptions = "--no-cache "
-  execSync("docker build -t " + image + " -f " + dockerFile + " " + buildOptions + process.cwd(), {stdio: "inherit"});
+
+  let buildArgOptions = ""
+  for (k in buildArgs) {
+    let v = buildArgs[k];
+    buildArgOptions += "--build-arg " + k + "=" + v + " ";
+  }
+  execSync("docker build -t " + image + buildArgOptions + " -f " + dockerFile + " " + buildOptions + process.cwd(), {stdio: "inherit"});
 
   if (execSync("docker network ls").toString().search(new RegExp(network)) == -1) {
     console.log("*** Creating network " + network + "...");

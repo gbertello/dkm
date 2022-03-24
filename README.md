@@ -117,6 +117,13 @@ Sometimes, environment variables need to be used in dkm.json files. In this case
       "SECRET": "$ENV"
     }
 
+# Use build-args for docker build
+When Docker containers need to be built with docker environment variables, use the following syntax in dkm.json:
+    
+    "build-args": {
+      "VAR": "value"
+    }
+
 # Use "clean" optional argument to force reload
 When needed, docker needs to be rebuilt without using cache. Use this command in this case:
 
