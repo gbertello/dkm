@@ -5,10 +5,13 @@
       "5001": "80"
     },
     "volumes": {
-      "app": "/app"
+      "app/src": "/app/src"
     }
   },
   "prod": {
+    "ports": {
+      "5002": "80"
+    },
     "restart": true
   }
 }
