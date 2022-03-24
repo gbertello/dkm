@@ -106,7 +106,7 @@ function start() {
     let v = buildArgs[k];
     buildArgOptions += "--build-arg " + k + "=" + v + " ";
   }
-  execSync("docker build -t " + image + buildArgOptions + " -f " + dockerFile + " " + buildOptions + process.cwd(), {stdio: "inherit"});
+  execSync("docker build -t " + image + " " + buildArgOptions + " -f " + dockerFile + " " + buildOptions + process.cwd(), {stdio: "inherit"});
 
   if (execSync("docker network ls").toString().search(new RegExp(network)) == -1) {
     console.log("*** Creating network " + network + "...");
