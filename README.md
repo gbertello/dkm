@@ -95,8 +95,8 @@ Set this parameter to "true" to enable docker restart when container stops. This
 # The dockerFile parameter
 This parameter is used to specify a Dockerfile for a specific configuration
 
-# The command parameter
-The file dkm.json can contain another argument called "command". This was implemented because some docker images like mongo do not work immediately after contain start. dkm will run an infinite loop with the command "docker exec IMAGE command" and break until this command returns an OK status code.
+# The script parameter
+The file dkm.json can contain another argument called "script". This was implemented because some docker images like mongo do not work immediately after contain start. dkm will run a post script that can do any configurable action.
 
 See example/mongo/dkm.json for an illustration.
 

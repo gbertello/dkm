@@ -6,13 +6,13 @@
     "volumes": {
       "disk/dev": "/data/db"
     },
-    "command": "mongo"
+    "script": "script.py example_mongo_dev"
   },
   "prod": {
     "volumes": {
       "disk/prod": "/data/db"
     },
     "restart": true,
-    "command": "mongo"
+    "script": "script.py example_mongo_prod"
   }
 }

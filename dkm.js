@@ -25,8 +25,6 @@ var argv = require('yargs')
 
 function dkm(process) {
   let action = argv.action;
-  let system = argv.system;
-  let dockerFile = "Dockerfile";
 
   if (fs.existsSync("dkm.json")) {
     let config = JSON.parse(fs.readFileSync('dkm.json'));
@@ -37,33 +35,25 @@ function dkm(process) {
         process.chdir("../");
       }
     }
-
-    if (system in config)
-      if ("dockerFile" in config[system])
-        dockerFile = config[system]["dockerFile"];
   }
 
-  if (fs.existsSync(dockerFile)) {
-    if (action == "start")
-      start(process);
-    else if (action == "stop")
-      stop(process);
-  }
+  if (action == "start")
+    start(process);
+  else if (action == "stop")
+    stop(process);
 }
 
 function start() {
   let system = argv.system;
   let clean = argv.clean;
-
   let image = (path.basename(path.dirname(process.cwd())) + "_" + path.basename(process.cwd()) + "_" + system).toLowerCase();
-
   let network = system;
   let volumes = {};
   let variables = {};
   let buildArgs = {};
   let ports = {};
   let restart = false;
-  let command = "";
+  let script = "";
   let dockerFile = "Dockerfile";
 
   if (fs.existsSync("dkm.json")) {
@@ -81,12 +71,15 @@ function start() {
         ports = config[system]["ports"];
       if ("restart" in config[system])
         restart = config[system]["restart"];
-      if ("command" in config[system])
-        command = config[system]["command"];
+      if ("script" in config[system])
+        script = config[system]["script"];
       if ("dockerFile" in config[system])
         dockerFile = config[system]["dockerFile"]
     }
   }
+
+  if (!fs.existsSync(dockerFile))
+    return
 
   if (execSync("docker ps -a").toString().search(new RegExp(image)) != -1) {
     console.log("*** Stopping container " + image + "...");
@@ -144,14 +137,8 @@ function start() {
   execSync("docker run -dit --name " + image + " --network " + network + " -e IMAGE=" + image + " -e SYSTEM=" + system + " " + options + " " + image, {stdio: "inherit"});
   execSync("docker ps", { stdio: "inherit" });
 
-  if (command != "") {
-    while (true) {
-      try {
-        execSync("docker exec " + image + " " + command, { stdio: "inherit" })
-        break
-      } catch(error) {}
-    }
-  }
+  if (script != "")
+    execSync("./" + script, { stdio: "inherit" });
 }
 
 function stop(process) {
