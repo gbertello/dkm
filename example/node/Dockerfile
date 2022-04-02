@@ -1,7 +1,7 @@
 FROM node:16.0.0
 
 WORKDIR /app
-COPY app/package*.json .
+COPY app/package*.json ./
 RUN npm install
-COPY app/ .
+COPY app/ ./
 CMD node src/app.js
