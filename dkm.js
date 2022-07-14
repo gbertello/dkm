@@ -116,8 +116,10 @@ function start() {
     let v = variables[k];
     if (v == "$ENV") {
       v = eval("process.env." + k)
-      if (v === undefined)
-        throw new Error('Specify environment variable: ' + k)
+      if (v === undefined) {
+        console.log('Specify environment variable: ' + k)
+        process.exit()
+      }
     }
     options += "-e " + k + "=" + v + " ";
   }
