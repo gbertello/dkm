@@ -1,7 +1,9 @@
 {
-  "components": [
-    "mongo",
-    "node",
-    "vue"
-  ]
+  "components": {
+    "dev": [
+      "mongo",
+      "node",
+      "vue"
+    ]
+  }
 }

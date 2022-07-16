@@ -104,10 +104,12 @@ See example/mongo/dkm.json for an illustration.
 Multiple components can be started and stopped at once with one single command. The application directory should contain a dkm.json file with the following contents:
 
     {
-      "components": [
-        "comp1",
-        "comp2"
-      ]
+      "components": {
+        "system": [
+          "comp1",
+          "comp2"
+        ]
+      }
     }
 
 # Use environment variables

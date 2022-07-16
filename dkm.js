@@ -25,14 +25,17 @@ var argv = require('yargs')
 
 function dkm(process) {
   let action = argv.action;
+  let system = argv.system;
 
   if (fs.existsSync("dkm.json")) {
     let config = JSON.parse(fs.readFileSync('dkm.json'));
     if ("components" in config) {
-      for (let i in config["components"]) {
-        process.chdir(config["components"][i]);
-        dkm(process);
-        process.chdir("../");
+      if (system in config["components"]) {
+        for (let i in config["components"]["system"]) {
+          process.chdir(config["components"]["system"][i]);
+          dkm(process);
+          process.chdir("../");
+        }
       }
     }
   }
