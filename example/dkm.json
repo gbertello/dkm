@@ -1,6 +1,13 @@
 {
-  "components": {
-    "dev": [
+  "dev": {
+    "components": [
+      "mongo",
+      "node",
+      "vue"
+    ]
+  },
+  "prod": {
+    "components": [
       "mongo",
       "node",
       "vue"

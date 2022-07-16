@@ -25,21 +25,6 @@ var argv = require('yargs')
 
 function dkm(process) {
   let action = argv.action;
-  let system = argv.system;
-
-  if (fs.existsSync("dkm.json")) {
-    let config = JSON.parse(fs.readFileSync('dkm.json'));
-    if ("components" in config) {
-      if (system in config["components"]) {
-        for (let i in config["components"]["system"]) {
-          process.chdir(config["components"]["system"][i]);
-          dkm(process);
-          process.chdir("../");
-        }
-      }
-    }
-  }
-
   if (action == "start")
     start(process);
   else if (action == "stop")
@@ -62,6 +47,13 @@ function start() {
   if (fs.existsSync("dkm.json")) {
     let config = JSON.parse(fs.readFileSync('dkm.json'));
     if (system in config) {
+      if ("components" in config[system]) {
+        for (let i in config[system]["components"]) {
+          process.chdir(config[system]["components"][i]);
+          dkm(process);
+          process.chdir("../");
+        }
+      }
       if ("network" in config[system])
         network = config[system]["network"];
       if ("volumes" in config[system])
